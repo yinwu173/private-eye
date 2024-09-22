@@ -1,6 +1,6 @@
 // import dependencies and packages
 const inquirer = require('inquirer');
-
+const connection = require('./db');
 
 // When app starts, I am presented with view all: departments, roles, employees
 // Add: department, role, employee
@@ -48,4 +48,17 @@ inquirer
                 break;
         }
     })
+
 // When chose to view all departments, I am presented with a formatted table showing department names and department ids
+function viewAllDepartments() {
+    const sql = `SELECT id, name AS department, 
+    FROM department`;
+    connection.query(sql, (err, response) => {
+        if (err) {
+            console.error('Error getting departments', err);
+            return;
+        }
+        console.table(response);
+        console.log('Viewing all departments');
+    });
+};
