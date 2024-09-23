@@ -1,6 +1,8 @@
 // import dependencies and packages
 const inquirer = require('inquirer');
 const connection = require('./db');
+const { Pool } = require('pg');
+
 
 // When app starts, I am presented with view all: departments, roles, employees
 // Add: department, role, employee
