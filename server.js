@@ -118,8 +118,37 @@ function addDepartment() {
 };
 
 // WHEN I choose to add a role THEN I am prompted to enter the name, salary, and department for the role and that role is added to the database
+function addRole() {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'roleName',
+                message: 'Please enter name of the role:'
+            },
+            {
+                type: 'input',
+                name: 'salary',
+                message: 'Please enter salary amount:'
+            },
+            {
+                type: 'input',
+                name: 'departmentName',
+                message: 'Please enter name of the department:'
+            }
+        ])
+        .then((answer) => {
+            const sql = `INSERT INTO role (title, salary, department_id)
+            VALUES (${roleName}, ${roleSalary}, ${department_id})`;
 
-
+            connection.query(sql, answer.roleName, answer.roleSalary, answer.department_id,  (err) => {
+                if (err) {
+                    console.error('Error adding role: ', err);
+                }
+                console.log(`Role '${answer.roleName}' added.`);
+            });
+        });
+};
 
 // WHEN I choose to add an employee THEN I am prompted to enter the employee’s first name, last name, role, and manager, and that employee is added to the database
 
