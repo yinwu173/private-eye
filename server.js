@@ -67,7 +67,7 @@ function viewAllDepartments() {
 function viewAllRoles() {
     const sql = `SELECT r.id, r.title, r.salary, name AS department,
     FROM role
-    JOIN department ON r.department_id = department_id`;
+    LEFT JOIN department ON r.department_id = department_id`;
     connection.query(sql, (err, res) => {
         if (err) {
             console.error('Error getting roles', err);
@@ -79,7 +79,19 @@ function viewAllRoles() {
 };
 
 // WHEN I choose to view all employees THEN I am presented with a formatted table showing employee data, including employee ids, first names, last names, job titles, departments, salaries, and managers that the employees report to
-
-
+function viewAllEmployees() {
+    const sql = `SELECT e.id, e.first_name, e.last_name, r.title, name AS department, r.salary, manager_id, 
+    FROM employee
+    LEFT JOIN role on e.role_id = role_id
+    LEFT JOIN department ON r.department_id = department_id`;
+    connection.query(sql, (err, res) => {
+        if (err) {
+            console.error('Error getting employees', err);
+            return;
+        }
+        console.table(res);
+        console.log('Viewing all employees');
+    });
+};
 
 // WHEN I choose to add a department THEN I am prompted to enter the name of the department and that department is added to the database
