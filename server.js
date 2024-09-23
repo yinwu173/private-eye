@@ -53,12 +53,33 @@ inquirer
 function viewAllDepartments() {
     const sql = `SELECT id, name AS department, 
     FROM department`;
-    connection.query(sql, (err, response) => {
+    connection.query(sql, (err, res) => {
         if (err) {
             console.error('Error getting departments', err);
             return;
         }
-        console.table(response);
+        console.table(res);
         console.log('Viewing all departments');
     });
 };
+
+// WHEN I choose to view all roles THEN I am presented with the job title, role id, the department that role belongs to, and the salary for that role
+function viewAllRoles() {
+    const sql = `SELECT r.id, r.title, r.salary, name AS department,
+    FROM role
+    JOIN department ON r.department_id = department_id`;
+    connection.query(sql, (err, res) => {
+        if (err) {
+            console.error('Error getting roles', err);
+            return;
+        }
+        console.table(res);
+        console.log('Viewing all roles');
+    });
+};
+
+// WHEN I choose to view all employees THEN I am presented with a formatted table showing employee data, including employee ids, first names, last names, job titles, departments, salaries, and managers that the employees report to
+
+
+
+// WHEN I choose to add a department THEN I am prompted to enter the name of the department and that department is added to the database
