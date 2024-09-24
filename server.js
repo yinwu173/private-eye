@@ -1,60 +1,61 @@
 // import dependencies and packages
 const inquirer = require('inquirer');
 const connection = require('./config/connection');
+const consoleTable = require('console.table'); //displays data in a table in the console
 const { Pool } = require('pg');
-
 
 
 // When app starts, I am presented with view all: departments, roles, employees
 // Add: department, role, employee
 // Update an employee role
-inquirer
-    .prompt([
-        {
-            type: 'list',
-            name: 'track',
-            message: 'What would you like to do?',
-            choices: [
-                'View all departments',
-                'View all roles',
-                'View all employees',
-                'Add a department',
-                'Add a role',
-                'Add an employee',
-                'Update an employee role',
-                'Quit'
-            ]
-        }
-    ])
-    .then((track) => {
-        switch (track) {
-            case 'View all departments':
-                viewAllDepartments();
-                break;
-            case 'View all roles':
-                viewAllRoles();
-                break;
-            case 'View all employees':
-                viewAllEmployees();
-                break;
-            case 'Add a department':
-                addDepartment();
-                break;
-            case 'Add a role':
-                addRole();
-                break;
-            case 'Add an employee':
-                addEmployee();
-                break;
-            case 'Update an employee role':
-                updateEmployeeRole();
-                break;
-        }
-    })
-
+function startUser() {
+    inquirer
+        .prompt([
+            {
+                type: 'list',
+                name: 'track',
+                message: 'What would you like to do?',
+                choices: [
+                    'View all departments',
+                    'View all roles',
+                    'View all employees',
+                    'Add a department',
+                    'Add a role',
+                    'Add an employee',
+                    'Update an employee role',
+                    'Quit'
+                ]
+            }
+        ])
+        .then((answer) => { 
+            switch (answer.track) { //access the property: track
+                case 'View all departments':
+                    viewAllDepartments();
+                    break;
+                case 'View all roles':
+                    viewAllRoles();
+                    break;
+                case 'View all employees':
+                    viewAllEmployees();
+                    break;
+                case 'Add a department':
+                    addDepartment();
+                    break;
+                case 'Add a role':
+                    addRole();
+                    break;
+                case 'Add an employee':
+                    addEmployee();
+                    break;
+                case 'Update an employee role':
+                    updateEmployeeRole();
+                    break;
+            }
+        })
+}
 // When chose to view all departments, I am presented with a formatted table showing department names and department ids
 function viewAllDepartments() {
-    const sql = `SELECT id, name AS department, 
+    const sql = `SELECT id, name AS department 
     FROM department`;
     connection.query(sql, (err, res) => {
         if (err) {
@@ -68,7 +69,7 @@ function viewAllDepartments() {
 
 // WHEN I choose to view all roles THEN I am presented with the job title, role id, the department that role belongs to, and the salary for that role
 function viewAllRoles() {
-    const sql = `SELECT r.id, r.title, r.salary, name AS department,
+    const sql = `SELECT r.id, r.title, r.salary, name AS department
     FROM role
     LEFT JOIN department ON r.department_id = department_id`;
     connection.query(sql, (err, res) => {
@@ -83,7 +84,7 @@ function viewAllRoles() {
 
 // WHEN I choose to view all employees THEN I am presented with a formatted table showing employee data, including employee ids, first names, last names, job titles, departments, salaries, and managers that the employees report to
 function viewAllEmployees() {
-    const sql = `SELECT e.id, e.first_name, e.last_name, r.title, name AS department, r.salary, manager_id, 
+    const sql = `SELECT e.id, e.first_name, e.last_name, r.title, name AS department, r.salary, manager_id 
     FROM employee
     LEFT JOIN role ON e.role_id = role_id
     LEFT JOIN department ON r.department_id = department_id`;
@@ -144,7 +145,7 @@ function addRole() {
             const sql = `INSERT INTO role (title, salary, department_id)
             VALUES (${roleName}, ${roleSalary}, ${department_id})`;
 
-            connection.query(sql, answer.roleName, answer.roleSalary, answer.department_id,  (err) => {
+            connection.query(sql, answer.roleName, answer.roleSalary, answer.department_id, (err) => {
                 if (err) {
                     console.error('Error adding role: ', err);
                 }
@@ -159,3 +160,7 @@ function addRole() {
 
 // WHEN I choose to update an employee role THEN I am prompted to select an employee to update and their new role and this information is updated in the database
 
+
+
+// Start user application
+startUser();
