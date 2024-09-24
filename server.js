@@ -1,6 +1,6 @@
 // import dependencies and packages
 const inquirer = require('inquirer');
-const connection = require('./db');
+const connection = require('./config/connection');
 const { Pool } = require('pg');
 
 
