@@ -4,6 +4,7 @@ const connection = require('./config/connection');
 const { Pool } = require('pg');
 
 
+
 // When app starts, I am presented with view all: departments, roles, employees
 // Add: department, role, employee
 // Update an employee role
@@ -157,3 +158,4 @@ function addRole() {
 
 
 // WHEN I choose to update an employee role THEN I am prompted to select an employee to update and their new role and this information is updated in the database
+
