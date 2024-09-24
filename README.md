@@ -26,6 +26,10 @@
 
 * Install necessary packages to keep your app running. For example, we will need the inquirer along with pg package. Utilize npm i inquirer and npm i pg to install these packages. Additional pacakges that may help with the UI/UX of the app is the package for console.table.
 
+### Walkthrough Video Link
+
+* https://watch.screencastify.com/v/dubaChZWik8Zo3WQirtN
+
 ### Resources
 
 * [Switch Statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch)
